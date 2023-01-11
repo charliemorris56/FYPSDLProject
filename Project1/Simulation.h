@@ -25,6 +25,9 @@ private:
 	SDL_Renderer* m_renderer;
 	SDL_Color m_backgroundColor;
 
-	TileMap m_tileMap;
+	TileMap* m_tileMap;
+
+	int m_width;
+	int m_hight;
 };
 

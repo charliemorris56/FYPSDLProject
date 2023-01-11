@@ -22,7 +22,11 @@ struct Color
 class TileMap
 {
 public:
+	TileMap(int width, int height);
 	TileMap();
+	~TileMap();
+
+	void Init();
 
 	int GetSquareSize();
 	Tiles GetTileType(int pos);
@@ -31,7 +35,7 @@ public:
 
 	bool ReturnsTru() { return true; }
 private:
-	Tiles m_grid[ROWS * COLUMNS];
+	Tiles* m_grid;
 	int m_squareSize;
 
 	Color m_emptyColor;

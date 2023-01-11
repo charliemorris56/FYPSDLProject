@@ -6,6 +6,7 @@ Simulation::Simulation()
 
 Simulation::~Simulation()
 {
+	delete m_tileMap;
 }
 
 void Simulation::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, SDL_Color backgroundColor)
@@ -40,6 +41,9 @@ void Simulation::Init(const char* title, int xpos, int ypos, int width, int heig
 	}
 
 	m_backgroundColor = backgroundColor;
+	m_width = width;
+	m_hight = height;
+	m_tileMap = new TileMap(m_width, m_hight);
 }
 
 void Simulation::HandleEvents()
@@ -85,13 +89,13 @@ bool Simulation::Running()
 void Simulation::RenderSquare()
 {
 	SDL_Rect tileMapSquare;
-	int squareSize = m_tileMap.GetSquareSize();
+	int squareSize = m_tileMap->GetSquareSize();
 	int startingPosX = 5, startingPosY = 5;
 	int posX = startingPosX, posY = startingPosY;
 
 	for (int i = 0; i < ROWS * COLUMNS; i++)
 	{
-		SDL_SetRenderDrawColor(m_renderer, m_tileMap.GetColor(i).r, m_tileMap.GetColor(i).g, m_tileMap.GetColor(i).b, m_tileMap.GetColor(i).a);		
+		SDL_SetRenderDrawColor(m_renderer, m_tileMap->GetColor(i).r, m_tileMap->GetColor(i).g, m_tileMap->GetColor(i).b, m_tileMap->GetColor(i).a);
 
 		if (i != 0)
 		{
@@ -103,9 +107,9 @@ void Simulation::RenderSquare()
 			posY += squareSize;
 			posX = startingPosX;
 		}
-		tileMapSquare = { posX, posY, m_tileMap.GetSquareSize(), m_tileMap.GetSquareSize()};
+		tileMapSquare = { posX, posY, m_tileMap->GetSquareSize(), m_tileMap->GetSquareSize()};
 		
-		if (m_tileMap.GetColor(i).fill)
+		if (m_tileMap->GetColor(i).fill)
 		{
 			SDL_RenderFillRect(m_renderer, &tileMapSquare);
 		}

@@ -1,12 +1,29 @@
 #include "TileMap.h"
 
+TileMap::TileMap(int width, int height)
+{
+	m_squareSize = (width - 10) / COLUMNS;
+	Init();
+}
+
 TileMap::TileMap()
 {
-	m_squareSize = 7;
+	m_squareSize = 8;
+	Init();
+}
 
-	m_emptyColor = { 100,100,200,255, false };
+void TileMap::Init()
+{
+	m_grid = new Tiles[ROWS * COLUMNS];
+
+	for (int i = 0; i < ROWS * COLUMNS; i++)
+	{
+		m_grid[i] = Tiles::Empty;
+	}
+
+	m_emptyColor = { 200,50,50,255, false };
 	m_obstacleColor = { 50,200,50,255, true };
-	m_agentColor = { 50,50,50,255, true };
+	m_agentColor = { 50,50,200,255, true };
 
 	m_grid[50] = Tiles::Obstacle;
 	m_grid[51] = Tiles::Obstacle;
@@ -17,6 +34,11 @@ TileMap::TileMap()
 	m_grid[153] = Tiles::Agent;
 	m_grid[154] = Tiles::Agent;
 	m_grid[155] = Tiles::Agent;
+}
+
+TileMap::~TileMap()
+{
+	delete [] m_grid;
 }
 
 int TileMap::GetSquareSize()
