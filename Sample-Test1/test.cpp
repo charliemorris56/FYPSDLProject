@@ -4,17 +4,14 @@
 #include "AStar.h"
 #include "AStar.cpp"
 #include "JsonLoading.h"
-#include "JumpPointSearch.h"
-#include "JumpPointSearch.cpp"
-#include "j1PathFinding.h"
-#include "j1PathFinding.cpp"
 #include "JumpPointSearchMe.h"
 #include "JumpPointSearchMe.cpp"
 #include "Map.h"
+#include <chrono>
 
 TEST(AStar, OneAgent10x10Diagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     AStar aStar;
 
@@ -22,8 +19,9 @@ TEST(AStar, OneAgent10x10Diagonal)
     AStar::Pair dest = std::make_pair(0, 0);
     aStar.AStarSearch(map10x10, src, dest, true);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -35,7 +33,7 @@ TEST(AStar, OneAgent10x10Diagonal)
 
 TEST(AStar, OneAgent10x10NoDiagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     AStar aStar;
 
@@ -43,8 +41,9 @@ TEST(AStar, OneAgent10x10NoDiagonal)
     AStar::Pair dest = std::make_pair(0, 0);
     aStar.AStarSearch(map10x10, src, dest, false);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -56,7 +55,7 @@ TEST(AStar, OneAgent10x10NoDiagonal)
 
 TEST(AStar, OneAgent100x100Diagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     AStar aStar;
 
@@ -64,8 +63,9 @@ TEST(AStar, OneAgent100x100Diagonal)
     AStar::Pair dest = std::make_pair(0, 0);
     aStar.AStarSearch(map100x100, src, dest, true);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -77,7 +77,7 @@ TEST(AStar, OneAgent100x100Diagonal)
 
 TEST(JumpPointSearch, OneAgent10x10NoDiagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     JumpPointSearchMe jumpPointSearchMe;
 
@@ -85,8 +85,9 @@ TEST(JumpPointSearch, OneAgent10x10NoDiagonal)
     JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
     jumpPointSearchMe.AStarSearch(map10x10, src, dest, false);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -98,7 +99,7 @@ TEST(JumpPointSearch, OneAgent10x10NoDiagonal)
 
 TEST(JumpPointSearch, OneAgent100x100Diagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     JumpPointSearchMe jumpPointSearchMe;
 
@@ -106,8 +107,9 @@ TEST(JumpPointSearch, OneAgent100x100Diagonal)
     JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
     jumpPointSearchMe.AStarSearch(map100x100, src, dest, true);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -119,7 +121,7 @@ TEST(JumpPointSearch, OneAgent100x100Diagonal)
 
 TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     JumpPointSearchMe jumpPointSearchMe;
 
@@ -127,8 +129,9 @@ TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
     JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
     jumpPointSearchMe.AStarSearch(map100x100, src, dest, false);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 
@@ -140,7 +143,7 @@ TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
 
 TEST(JumpPointSearch, OneAgent10x10Diagonal)
 {
-    clock_t t = clock();
+    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
     JumpPointSearchMe jumpPointSearchMe;
 
@@ -148,8 +151,9 @@ TEST(JumpPointSearch, OneAgent10x10Diagonal)
     JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
     jumpPointSearchMe.AStarSearch(map10x10, src, dest, true);
 
-    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
-    std::cout << "\nTime Taken: " << work_time;
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
 

@@ -27,12 +27,6 @@
     <ClCompile Include="AStar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JumpPointSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="j1PathFinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JumpPointSearchMe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,21 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JsonLoading.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpPointSearch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="j1PathFinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="p2Defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JumpPointSearchMe.h">
