@@ -133,6 +133,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="JumpPointSearch.cpp" />
+    <ClCompile Include="j1PathFinding.cpp" />
+    <ClCompile Include="JumpPointSearchMe.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -141,6 +145,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
+    <ClInclude Include="JsonLoading.h" />
+    <ClInclude Include="JumpPointSearch.h" />
+    <ClInclude Include="j1PathFinding.h" />
+    <ClInclude Include="JumpPointSearchMe.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="p2Defs.h" />
+    <ClInclude Include="p2Point.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="TileMap.h" />
   </ItemGroup>

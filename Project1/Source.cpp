@@ -2,6 +2,8 @@
 #undef main
 #include <iostream>
 #include "Simulation.h"
+#include "JsonLoading.h"
+#include "AStar.h"
 
 Simulation* simulation = nullptr;
 
@@ -20,7 +22,6 @@ int main() {
 		simulation->HandleEvents();
 		simulation->Update();
 		simulation->Render();
-
 	}
 
 	simulation->Clean();
