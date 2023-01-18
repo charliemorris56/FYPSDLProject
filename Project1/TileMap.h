@@ -1,13 +1,18 @@
 #pragma once
+#include <iostream>
+#include "JsonLoading.h"
 
 #define ROWS 100
 #define COLUMNS 100
 
 enum class Tiles
 {
-	Empty,
 	Obstacle,
-	Agent
+	Empty,
+	Path,
+	Agent,
+	Start,
+	End
 };
 
 struct Color
@@ -18,6 +23,12 @@ struct Color
 	int a;
 	bool fill;
 };
+
+struct Map
+{
+	int tile;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Map, tile)
 
 class TileMap
 {
@@ -41,5 +52,10 @@ private:
 	Color m_emptyColor;
 	Color m_obstacleColor;
 	Color m_agentColor;
+	Color m_pathColor;
+	Color m_startColor;
+	Color m_endColor;
+
+	int m_iBoarder = 10;
 };
 
