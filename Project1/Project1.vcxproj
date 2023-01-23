@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="HPAStar.cpp" />
     <ClCompile Include="JumpPointSearchMe.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="HPAStar.h" />
     <ClInclude Include="JsonLoading.h" />
     <ClInclude Include="JumpPointSearchMe.h" />
     <ClInclude Include="Simulation.h" />

@@ -2,8 +2,8 @@
 #include <iostream>
 #include "JsonLoading.h"
 
-#define ROWS 100
-#define COLUMNS 100
+#define ROWS 10
+#define COLUMNS 10
 
 enum class Tiles
 {
