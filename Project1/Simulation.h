@@ -29,5 +29,8 @@ private:
 
 	int m_width;
 	int m_hight;
+
+	int m_iRows;
+	int m_iCols;
 };
 

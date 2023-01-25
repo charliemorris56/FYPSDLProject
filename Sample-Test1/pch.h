@@ -11,7 +11,5 @@ public:
 	pch();
 	~pch();
 
-	void SaveMapToJson(int map[][COLUMNS], AStar::Pair src, AStar::Pair dest);
 private:
-	std::vector<Map> mapVector;
 };

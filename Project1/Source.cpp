@@ -11,8 +11,8 @@ int main() {
 	simulation = new Simulation();
 
 	const char* title = "FPY";
-	int width = 1210; //Make is a square or the tilemap will brake
-	int height = 1210;
+	int width = 1100; //Make is a square or the tilemap will brake
+	int height = 1100;
 	bool fullscreen = false;
 	SDL_Color backgroudColor = { 0, 0, 0, 255 };
 	simulation->Init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, fullscreen, backgroudColor);

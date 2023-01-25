@@ -2,9 +2,6 @@
 #include <iostream>
 #include "JsonLoading.h"
 
-#define ROWS 10
-#define COLUMNS 10
-
 enum class Tiles
 {
 	Obstacle,
@@ -26,9 +23,11 @@ struct Color
 
 struct Map
 {
-	int tile;
+	std::vector<int> tile;
+	int rows;
+	int cols;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Map, tile)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Map, tile, rows, cols)
 
 class TileMap
 {
@@ -44,9 +43,10 @@ public:
 	Color GetColor(Tiles tile);
 	Color GetColor(int pos);
 
-	bool ReturnsTru() { return true; }
+	int GetRows();
+	int GetCols();
 private:
-	Tiles* m_grid;
+	std::vector<Tiles> m_grid;
 	int m_squareSize;
 
 	Color m_emptyColor;
@@ -57,5 +57,11 @@ private:
 	Color m_endColor;
 
 	int m_iBoarder = 10;
+
+	int m_iRows;
+	int m_iCols;
+
+	int m_iWidth;
+	int m_iHeight;
 };
 

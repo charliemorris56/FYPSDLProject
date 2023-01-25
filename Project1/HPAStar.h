@@ -1,10 +1,9 @@
 #pragma once
-#include "TileMap.h"
 #include <iostream>
 #include <stack>
 #include <vector>
 #include <set>
-#include "AStar.h"
+#include "MapSaving.h"
 
 class HPAStar
 {
@@ -12,33 +11,52 @@ public:
 	typedef std::pair<int, int> Pair;
 	typedef std::pair<double, std::pair<int, int> > pPair;
 
-	void Search(int map[][COLUMNS], Pair src, Pair dest, bool diagonal, int hierarchicalSize);
+	void HPAStarSearch(std::vector<std::vector<int>>& originalMap, std::vector<std::vector<int>>& hiMap, int hierarchicalSize, Pair src, Pair dest, bool diagonal);
+
+	void ProcessMap(std::vector<std::vector<int>>& map, int hierarchicalSize, std::string name);
+
+	void SaveMap();
 
 private:
 	bool IsValid(int row, int col);
-	bool IsUnBlocked(int map[][COLUMNS], int row, int col);
-	bool IsDestination(int row, int col, Pair dest);
-	bool InitChecks(int map[][COLUMNS], Pair src, Pair dest);
+	bool IsUnBlocked(int row, int col);
+	bool IsUnBlockedOriginalMap(int row, int col);
+	bool IsDestination(int row, int col);
+	bool InitChecks();
 
-	double CalculateHuristicValue(int row, int col, Pair dest);
+	double CalculateHuristicValue(int row, int col);
 
-	void TracePath(int map[][COLUMNS], Cell cellDetails[][COLUMNS], Pair dest);
+	void TracePath();
+	void ProcessPath();
 
-	bool Successor(int map[][COLUMNS], int row, int col, Pair dest);
+	bool Successor(int row, int col);
 
-	void ProcessMap(int map[][COLUMNS]);
+	void PopulateCellDetails();
 
 	int curRow, curCol;
 	double gNew, hNew, fNew;
 	bool foundDest;
 
-	Cell cellDetails[ROWS][COLUMNS];
-	bool closedList[ROWS][COLUMNS];
+	std::vector<std::vector<Cell>> m_cellDetails;
+	std::vector<std::vector<bool>> closedList;
 	std::set<pPair> openList;
 
 	Pair startingPos;
 	Pair endingPos;
 
+	Pair endingPosCopy;
+
 	int hiSize;
+
+	std::vector<std::vector<int>> m_map;
+	std::vector<std::vector<int>> m_hiMap;
+
+	int m_iRows;
+	int m_iCols;
+
+	int m_iHiRows;
+	int m_iHiCols;
+
+	std::stack<Pair> m_Path;
 };
 
