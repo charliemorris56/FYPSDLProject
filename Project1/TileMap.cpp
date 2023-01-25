@@ -2,7 +2,9 @@
 
 TileMap::TileMap(int width, int height)
 {
-	m_squareSize = (width - m_iBoarder) / COLUMNS;
+	m_iWidth = width;
+	m_iHeight = height;
+	
 	Init();
 }
 
@@ -14,46 +16,48 @@ TileMap::TileMap()
 
 void TileMap::Init()
 {
-	m_grid = new Tiles[ROWS * COLUMNS];
+	Map mapVector;
+	JsonLoading::LoadJson(mapVector, "C:\\Users\\charl\\source\\repos\\Project1\\x64\\Debug\\map.json");
 
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	m_iRows = mapVector.rows;
+	m_iCols = mapVector.cols;
+	m_squareSize = (m_iWidth - m_iBoarder) / m_iCols;
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		m_grid[i] = Tiles::Empty;
+		m_grid.push_back(Tiles::Empty);
 	}
 
-	m_emptyColor = { 200,50,50,255, false };
-	m_obstacleColor = { 50,200,50,255, true };
+	m_emptyColor = { 50,200,50,255, false };
+	m_obstacleColor = { 200,50,50,255, true };
 	m_agentColor = { 50,50,200,255, true };
 	m_pathColor = { 20,30,200,255, true };
 	m_startColor = { 255,255,255,255, true };
 	m_endColor = { 150,150,150,255, true };
 
-	std::vector<Map> mapVector;
-	JsonLoading::LoadJson(mapVector, "C:\\Users\\charl\\source\\repos\\Project1\\x64\\Debug\\map.json");
-
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		if (mapVector[i].tile == 0)
+		if (mapVector.tile[i] == 0)
 		{
 			m_grid[i] = Tiles::Obstacle;
 		}
-		else if (mapVector[i].tile == 1)
+		else if (mapVector.tile[i] == 1)
 		{
 			m_grid[i] = Tiles::Empty;
 		}
-		else if (mapVector[i].tile == 2)
+		else if (mapVector.tile[i] == 2)
 		{
 			m_grid[i] = Tiles::Path;
 		}
-		else if (mapVector[i].tile == 3)
+		else if (mapVector.tile[i] == 3)
 		{
 			m_grid[i] = Tiles::Agent;
 		}
-		else if (mapVector[i].tile == 4)
+		else if (mapVector.tile[i] == 4)
 		{
 			m_grid[i] = Tiles::Start;
 		}
-		else if (mapVector[i].tile == 5)
+		else if (mapVector.tile[i] == 5)
 		{
 			m_grid[i] = Tiles::End;
 		}
@@ -62,7 +66,7 @@ void TileMap::Init()
 
 TileMap::~TileMap()
 {
-	delete [] m_grid;
+
 }
 
 int TileMap::GetSquareSize()
@@ -129,4 +133,14 @@ Color TileMap::GetColor(int pos)
 	{
 		return m_endColor;
 	}
+}
+
+int TileMap::GetRows()
+{
+	return m_iRows;
+}
+
+int TileMap::GetCols()
+{
+	return m_iCols;
 }

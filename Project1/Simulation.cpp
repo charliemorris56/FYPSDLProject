@@ -93,7 +93,10 @@ void Simulation::RenderSquare()
 	int startingPosX = 5, startingPosY = 5;
 	int posX = startingPosX, posY = startingPosY;
 
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	m_iRows = m_tileMap->GetRows();
+	m_iCols = m_tileMap->GetCols();
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
 		SDL_SetRenderDrawColor(m_renderer, m_tileMap->GetColor(i).r, m_tileMap->GetColor(i).g, m_tileMap->GetColor(i).b, m_tileMap->GetColor(i).a);
 
@@ -101,7 +104,7 @@ void Simulation::RenderSquare()
 		{
 			posX += squareSize;
 		}
-		bool endOfColumn = i % COLUMNS == 0 && i != 0;
+		bool endOfColumn = i % m_iCols == 0 && i != 0;
 		if (endOfColumn)
 		{
 			posY += squareSize;
