@@ -16,7 +16,7 @@ public:
 	typedef std::pair<int, int> Pair;
 	typedef std::pair<double, std::pair<int, int> > pPair;
 
-	void AStarSearch(std::vector<std::vector<int>> &map, Pair src, Pair dest, bool diagonal);
+	void AStarSearch(std::vector<std::vector<int>> &map, Pair src, Pair dest, bool diagonal, bool groupSearch = false);
 	void AStarSearchNoMap(Pair src, Pair dest, bool diagonal);
 
 	void SaveMap();
@@ -40,6 +40,8 @@ private:
 	int curRow, curCol;
 	double gNew, hNew, fNew;
 	bool foundDest = false;
+
+	bool m_bGroupSearch;
 
 	std::vector<std::vector<Cell>> m_cellDetails;
 	std::vector<std::vector<bool>> closedList;
