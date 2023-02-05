@@ -459,7 +459,7 @@ TEST(MapGenerator, 512x512_maze)
     EXPECT_TRUE(false) << output;
 }
 
-TEST(GroupFormation, FormFixedGroupFixedLeader5to1)
+TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5)
 {
     auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
@@ -475,7 +475,7 @@ TEST(GroupFormation, FormFixedGroupFixedLeader5to1)
     
     AStar::Pair dest = std::make_pair(8, 8);
 
-    groupFormations.FormFixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -488,7 +488,7 @@ TEST(GroupFormation, FormFixedGroupFixedLeader5to1)
     EXPECT_TRUE(false) << output;
 }
 
-TEST(GroupFormation, FormFixedGroupFixedLeader5to1_2)
+TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_2)
 {
     auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
@@ -504,7 +504,152 @@ TEST(GroupFormation, FormFixedGroupFixedLeader5to1_2)
 
     AStar::Pair dest = std::make_pair(8, 8);
 
-    groupFormations.FormFixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FixedGroupSize1PhysicalLeaderAgents5_2)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 1));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FixedGroupSize5VirtualLeaderAgents5_10x10Clear)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 5;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    groupFormations.FixedGroupVirtualLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FixedGroupSize2VirtualLeaderAgents5_10x10Cup)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 2;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    groupFormations.FixedGroupVirtualLeader(map10x10Cupv, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FuzzyGroupSize5PhysicalLeaderAgents5_10x10Cup)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 5;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    groupFormations.FuzzyGroupFixedLeader(map10x10Cupv, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FuzzyGroupSize5VirtualLeaderAgents5_10x10Cup)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 2;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    groupFormations.FuzzyGroupVirtualLeader(map10x10Cupv, agents, dest, true, groupSize);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
