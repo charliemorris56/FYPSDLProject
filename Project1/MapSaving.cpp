@@ -36,6 +36,34 @@ void MapSaving::SaveMapToJson(std::vector<std::vector<int>>& map, AStar::Pair sr
     JsonLoading::SaveJson(mapVector, "map.json");
 }
 
+void MapSaving::SaveMapToJson(std::vector<std::vector<int>>& map, std::vector<std::pair<int, int>> src, std::vector<std::pair<int, int>> srcLeader, std::pair<int, int> dest)
+{ 
+    for (int i = 0; i < src.size(); i++)
+    {
+        map[src[i].first][src[i].second] = 4;
+    }
+
+    for (int i = 0; i < srcLeader.size(); i++)
+    {
+        map[srcLeader[i].first][srcLeader[i].second] = 6;
+    }
+
+    map[dest.first][dest.second] = 5;
+
+    mapVector.rows = map.size();
+    mapVector.cols = map[0].size();
+
+    for (int i = 0; i < map.size(); i++)
+    {
+        for (int j = 0; j < map[0].size(); j++)
+        {
+            mapVector.tile.push_back(map[i][j]);
+        }
+    }
+
+    JsonLoading::SaveJson(mapVector, "map.json");
+}
+
 void MapSaving::LoadMapFromJson(std::vector<std::vector<int>>& map, std::string name)
 {
     Map mapVector;

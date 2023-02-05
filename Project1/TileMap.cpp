@@ -34,6 +34,8 @@ void TileMap::Init()
 	m_pathColor = { 20,30,200,255, true };
 	m_startColor = { 255,255,255,255, true };
 	m_endColor = { 150,150,150,255, true };
+	m_agentLeaderColor = { 200,50,200,255, true };
+	m_pathAgentLeaderColor = { 70,80,220,255, true };
 
 	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
@@ -60,6 +62,14 @@ void TileMap::Init()
 		else if (mapVector.tile[i] == 5)
 		{
 			m_grid[i] = Tiles::End;
+		}
+		else if (mapVector.tile[i] == 6)
+		{
+			m_grid[i] = Tiles::AgentLeader;
+		}
+		else if (mapVector.tile[i] == 7)
+		{
+			m_grid[i] = Tiles::PathAgentGroup;
 		}
 	}
 }
@@ -105,6 +115,14 @@ Color TileMap::GetColor(Tiles tile)
 	{
 		return m_endColor;
 	}
+	if (tile == Tiles::AgentLeader)
+	{
+		return m_agentLeaderColor;
+	}
+	if (tile == Tiles::PathAgentGroup)
+	{
+		return m_pathAgentLeaderColor;
+	}
 }
 
 Color TileMap::GetColor(int pos)
@@ -132,6 +150,14 @@ Color TileMap::GetColor(int pos)
 	if (m_grid[pos] == Tiles::End)
 	{
 		return m_endColor;
+	}
+	if (m_grid[pos] == Tiles::AgentLeader)
+	{
+		return m_agentLeaderColor;
+	}
+	if (m_grid[pos] == Tiles::PathAgentGroup)
+	{
+		return m_pathAgentLeaderColor;
 	}
 }
 

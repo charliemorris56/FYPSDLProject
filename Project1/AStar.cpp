@@ -82,7 +82,14 @@ void AStar::TracePath()
 		std::pair<int, int> p = Path.top();
 		Path.pop();
 		printf("-> (%d,%d) ", p.first, p.second);
-		m_map[p.first][p.second] = 2;
+		if (m_bGroupSearch)
+		{
+			m_map[p.first][p.second] = 7;
+		}
+		else
+		{
+			m_map[p.first][p.second] = 2;
+		}  
 	}
 }
 
@@ -122,7 +129,7 @@ bool AStar::Successor(int row, int col)
 	return false;
 }
 
-void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal)
+void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
 	m_map = map;
 	m_iRows = map.size();
@@ -130,6 +137,8 @@ void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest,
 
 	startingPos = src;
 	endingPos = dest;
+
+	m_bGroupSearch = groupSearch;
 
 	if (!InitChecks())
 	{
