@@ -11,7 +11,8 @@ enum class Tiles
 	Start,
 	End,
 	AgentLeader,
-	PathAgentGroup
+	PathAgentGroup,
+	PathFlocking
 };
 
 struct Color
@@ -59,6 +60,7 @@ private:
 	Color m_endColor;
 	Color m_agentLeaderColor;
 	Color m_pathAgentLeaderColor;
+	Color m_pathFlockingColor;
 
 	int m_iBoarder = 10;
 

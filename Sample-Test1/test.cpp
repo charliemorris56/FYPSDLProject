@@ -13,6 +13,8 @@
 #include "MapSaving.cpp"
 #include "GroupFormations.h"
 #include "GroupFormations.cpp"
+#include "Flocking.h"
+#include "Flocking.cpp"
 #include <chrono>
 
 TEST(AStar, OneAgent10x10Diagonal)
@@ -658,6 +660,35 @@ TEST(GroupFormation, FuzzyGroupSize5VirtualLeaderAgents5_10x10Cup)
     std::string output = testing::internal::GetCapturedStdout();
 
     groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(Flocking, Flocking_10x10Cup)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    Flocking flocking;
+    std::vector<AStar::Pair> agents;
+    float radius = 2;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(0, 6));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+
+    flocking.FlockingPathfinding(map10x10Cupv, agents, dest, true, radius);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    flocking.SaveMap();
 
     EXPECT_TRUE(false) << output;
 }

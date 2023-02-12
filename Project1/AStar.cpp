@@ -86,6 +86,18 @@ void AStar::TracePath()
 		{
 			m_map[p.first][p.second] = 7;
 		}
+		else if (m_bRadius)
+		{
+			if (m_bSecondyLine)
+			{
+				m_map[p.first][p.second] = 8;
+			}
+			else
+			{
+				m_map[p.first][p.second] = 2;
+			}
+			m_flockingPath.push_back({ p.first, p.second });
+		}
 		else
 		{
 			m_map[p.first][p.second] = 2;
@@ -109,6 +121,14 @@ bool AStar::Successor(int row, int col)
 		// Seccessor already on the closed list or is blocked
 		else if (!closedList[curRow + row][curCol + col] && IsUnBlocked(curRow + row, curCol + col))
 		{
+			if (m_bRadius)
+			{
+				if (FlockingRadiusCheck(row, col))
+				{ 
+					return true;
+				}
+			}
+
 			gNew = m_cellDetails[curRow][curCol].g + 1.0;
 			hNew = CalculateHuristicValue(curRow + row, curCol + col);
 			fNew = gNew + hNew;
@@ -128,6 +148,8 @@ bool AStar::Successor(int row, int col)
 	}
 	return false;
 }
+
+
 
 void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
@@ -325,4 +347,41 @@ void AStar::PopulateCellDetails()
 	m_cellDetails[curRow][curCol].h = 0.0;
 	m_cellDetails[curRow][curCol].cRow = curRow;
 	m_cellDetails[curRow][curCol].cCol = curCol;
+}
+
+void AStar::SetRadius(float radius)
+{
+	m_fRadius = radius;
+	m_bRadius = true;
+}
+
+bool AStar::FlockingRadiusCheck(int row, int col)
+{
+	m_bSecondyLine = true;
+	m_bRadius = false;
+	float closestDisanct = FLT_MAX;		
+	Pair closestFlockingPath;
+
+	for (int i = 0; i < m_flockingPath.size(); i++)
+	{
+		float distance = pow((curRow + row) - m_flockingPath[i].first, 2) + pow((curCol + col) - m_flockingPath[i].second, 2);
+		if (distance < closestDisanct)
+		{
+			closestDisanct = distance;
+			closestFlockingPath = { m_flockingPath[i].first , m_flockingPath[i].second };
+		}
+	}
+
+	AStarSearchNoMap({ curRow + row, curCol + col }, { closestFlockingPath.first, closestFlockingPath.second }, true);
+	return true;
+}
+
+void AStar::GetFlockingPath(std::vector<Pair>& flockingPath)
+{
+	flockingPath = m_flockingPath;
+}
+
+void AStar::SetFlockingPath(std::vector<Pair>& flockingPath)
+{
+	m_flockingPath = flockingPath;
 }

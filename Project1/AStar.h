@@ -23,6 +23,11 @@ public:
 
 	void GetMap(std::vector<std::vector<int>>& map);
 
+	void SetRadius(float radius);
+
+	void GetFlockingPath(std::vector<Pair>& flockingPath);
+	void SetFlockingPath(std::vector<Pair>& flockingPath);
+
 private:
 	bool IsValid(int row, int col);
 	bool IsUnBlocked(int row, int col);
@@ -36,6 +41,8 @@ private:
 	bool Successor(int row, int col);
 
 	void PopulateCellDetails();
+
+	bool FlockingRadiusCheck(int row, int col);
 
 	int curRow, curCol;
 	double gNew, hNew, fNew;
@@ -52,6 +59,12 @@ private:
 
 	std::vector<std::vector<int>> m_map;
 
+	std::vector<Pair> m_flockingPath;
+
 	int m_iRows;
 	int m_iCols;
+
+	float m_fRadius = 0;
+	bool m_bRadius = false;
+	bool m_bSecondyLine = false;
 };
