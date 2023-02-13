@@ -23,6 +23,12 @@ public:
 
 	void GetMap(std::vector<std::vector<int>>& map);
 
+	void SetIsFlocking();
+	void SetIsPathFlocking();
+
+	void GetFlockingPath(std::vector<Pair>& flockingPath);
+	void SetFlockingPath(std::vector<Pair>& flockingPath);
+
 private:
 	bool IsValid(int row, int col);
 	bool IsUnBlocked(int row, int col);
@@ -52,6 +58,12 @@ private:
 
 	std::vector<std::vector<int>> m_map;
 
+	std::vector<Pair> m_flockingPath;
+
 	int m_iRows;
 	int m_iCols;
+
+	float m_fRadius = 0;
+	bool m_bFlocking = false;
+	bool m_bFlockingPath = false;
 };

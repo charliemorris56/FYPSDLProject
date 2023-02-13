@@ -122,5 +122,5 @@ void Simulation::RenderSquare()
 		}
 	}
 
-	std::cout << "Square rendered\n";
+	//std::cout << "Square rendered\n";
 }

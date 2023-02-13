@@ -86,6 +86,18 @@ void AStar::TracePath()
 		{
 			m_map[p.first][p.second] = 7;
 		}
+		else if (m_bFlocking)
+		{
+			if (m_bFlockingPath)
+			{
+				m_map[p.first][p.second] = 2;
+			}
+			else
+			{
+				m_map[p.first][p.second] = 8;
+			}
+			m_flockingPath.push_back({ p.first, p.second });
+		}
 		else
 		{
 			m_map[p.first][p.second] = 2;
@@ -128,6 +140,8 @@ bool AStar::Successor(int row, int col)
 	}
 	return false;
 }
+
+
 
 void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
@@ -325,4 +339,27 @@ void AStar::PopulateCellDetails()
 	m_cellDetails[curRow][curCol].h = 0.0;
 	m_cellDetails[curRow][curCol].cRow = curRow;
 	m_cellDetails[curRow][curCol].cCol = curCol;
+}
+
+void AStar::SetIsFlocking()
+{
+	m_bFlocking = true;
+}
+
+void AStar::SetIsPathFlocking()
+{
+	m_bFlockingPath = true;
+}
+
+void AStar::GetFlockingPath(std::vector<Pair>& flockingPath)
+{
+	for (int i = 0; i < m_flockingPath.size(); i++)
+	{
+		flockingPath.push_back(m_flockingPath[i]);
+	}
+}
+
+void AStar::SetFlockingPath(std::vector<Pair>& flockingPath)
+{
+	m_flockingPath = flockingPath;
 }

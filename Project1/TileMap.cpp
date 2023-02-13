@@ -31,11 +31,12 @@ void TileMap::Init()
 	m_emptyColor = { 50,200,50,255, false };
 	m_obstacleColor = { 200,50,50,255, true };
 	m_agentColor = { 50,50,200,255, true };
-	m_pathColor = { 20,30,200,255, true };
+	m_pathColor = { 20,30,100,255, true };
 	m_startColor = { 255,255,255,255, true };
 	m_endColor = { 150,150,150,255, true };
 	m_agentLeaderColor = { 200,50,200,255, true };
 	m_pathAgentLeaderColor = { 70,80,220,255, true };
+	m_pathFlockingColor = { 10,10,250,255, true };
 
 	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
@@ -70,6 +71,10 @@ void TileMap::Init()
 		else if (mapVector.tile[i] == 7)
 		{
 			m_grid[i] = Tiles::PathAgentGroup;
+		}
+		else if (mapVector.tile[i] == 8)
+		{
+			m_grid[i] = Tiles::PathFlocking;
 		}
 	}
 }
@@ -123,6 +128,10 @@ Color TileMap::GetColor(Tiles tile)
 	{
 		return m_pathAgentLeaderColor;
 	}
+	if (tile == Tiles::PathFlocking)
+	{
+		return m_pathFlockingColor;
+	}
 }
 
 Color TileMap::GetColor(int pos)
@@ -158,6 +167,10 @@ Color TileMap::GetColor(int pos)
 	if (m_grid[pos] == Tiles::PathAgentGroup)
 	{
 		return m_pathAgentLeaderColor;
+	}
+	if (m_grid[pos] == Tiles::PathFlocking)
+	{
+		return m_pathFlockingColor;
 	}
 }
 
