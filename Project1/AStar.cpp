@@ -86,15 +86,15 @@ void AStar::TracePath()
 		{
 			m_map[p.first][p.second] = 7;
 		}
-		else if (m_bRadius)
+		else if (m_bFlocking)
 		{
-			if (m_bSecondyLine)
+			if (m_bFlockingPath)
 			{
-				m_map[p.first][p.second] = 8;
+				m_map[p.first][p.second] = 2;
 			}
 			else
 			{
-				m_map[p.first][p.second] = 2;
+				m_map[p.first][p.second] = 8;
 			}
 			m_flockingPath.push_back({ p.first, p.second });
 		}
@@ -121,14 +121,6 @@ bool AStar::Successor(int row, int col)
 		// Seccessor already on the closed list or is blocked
 		else if (!closedList[curRow + row][curCol + col] && IsUnBlocked(curRow + row, curCol + col))
 		{
-			if (m_bRadius)
-			{
-				if (FlockingRadiusCheck(row, col))
-				{ 
-					return true;
-				}
-			}
-
 			gNew = m_cellDetails[curRow][curCol].g + 1.0;
 			hNew = CalculateHuristicValue(curRow + row, curCol + col);
 			fNew = gNew + hNew;
@@ -349,36 +341,22 @@ void AStar::PopulateCellDetails()
 	m_cellDetails[curRow][curCol].cCol = curCol;
 }
 
-void AStar::SetRadius(float radius)
+void AStar::SetIsFlocking()
 {
-	m_fRadius = radius;
-	m_bRadius = true;
+	m_bFlocking = true;
 }
 
-bool AStar::FlockingRadiusCheck(int row, int col)
+void AStar::SetIsPathFlocking()
 {
-	m_bSecondyLine = true;
-	m_bRadius = false;
-	float closestDisanct = FLT_MAX;		
-	Pair closestFlockingPath;
-
-	for (int i = 0; i < m_flockingPath.size(); i++)
-	{
-		float distance = pow((curRow + row) - m_flockingPath[i].first, 2) + pow((curCol + col) - m_flockingPath[i].second, 2);
-		if (distance < closestDisanct)
-		{
-			closestDisanct = distance;
-			closestFlockingPath = { m_flockingPath[i].first , m_flockingPath[i].second };
-		}
-	}
-
-	AStarSearchNoMap({ curRow + row, curCol + col }, { closestFlockingPath.first, closestFlockingPath.second }, true);
-	return true;
+	m_bFlockingPath = true;
 }
 
 void AStar::GetFlockingPath(std::vector<Pair>& flockingPath)
 {
-	flockingPath = m_flockingPath;
+	for (int i = 0; i < m_flockingPath.size(); i++)
+	{
+		flockingPath.push_back(m_flockingPath[i]);
+	}
 }
 
 void AStar::SetFlockingPath(std::vector<Pair>& flockingPath)

@@ -671,16 +671,17 @@ TEST(Flocking, Flocking_10x10Cup)
 
     Flocking flocking;
     std::vector<AStar::Pair> agents;
-    float radius = 2;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(0, 6));
-    agents.push_back(std::make_pair(4, 2));
-    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(3, 7));
+    agents.push_back(std::make_pair(4, 3));
+    agents.push_back(std::make_pair(7, 0));
     agents.push_back(std::make_pair(8, 3));
+    agents.push_back(std::make_pair(9, 9));
 
     AStar::Pair dest = std::make_pair(8, 8);
 
-    flocking.FlockingPathfinding(map10x10Cupv, agents, dest, true, radius);
+    flocking.FlockingPathfinding(map10x10Cupv, agents, dest, false);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();

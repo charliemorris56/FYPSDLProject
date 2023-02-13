@@ -31,7 +31,7 @@ void TileMap::Init()
 	m_emptyColor = { 50,200,50,255, false };
 	m_obstacleColor = { 200,50,50,255, true };
 	m_agentColor = { 50,50,200,255, true };
-	m_pathColor = { 20,30,200,255, true };
+	m_pathColor = { 20,30,100,255, true };
 	m_startColor = { 255,255,255,255, true };
 	m_endColor = { 150,150,150,255, true };
 	m_agentLeaderColor = { 200,50,200,255, true };
