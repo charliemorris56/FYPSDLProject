@@ -27,6 +27,7 @@ public:
 	void SetIsPathFlocking();
 
 	void GetFlockingPath(std::vector<Pair>& flockingPath);
+	std::vector<Pair> GetFlockingPath();
 	void SetFlockingPath(std::vector<Pair>& flockingPath);
 
 private:

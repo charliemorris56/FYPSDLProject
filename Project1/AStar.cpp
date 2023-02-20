@@ -358,6 +358,11 @@ void AStar::GetFlockingPath(std::vector<Pair>& flockingPath)
 	}
 }
 
+std::vector<AStar::Pair> AStar::GetFlockingPath()
+{
+	return m_flockingPath;
+}
+
 void AStar::SetFlockingPath(std::vector<Pair>& flockingPath)
 {
 	m_flockingPath = flockingPath;

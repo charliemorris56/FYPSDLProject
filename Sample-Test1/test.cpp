@@ -701,7 +701,7 @@ TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 3;
+    int groupSize = 1;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 1));

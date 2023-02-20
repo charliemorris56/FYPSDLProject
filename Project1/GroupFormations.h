@@ -23,9 +23,6 @@ public:
 	void FixedGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FixedGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 
-	void FixedGroup(Pair src, Pair dest, bool diagonal);
-	void FixedGroupThread(Pair src, Pair dest, bool diagonal, int num);
-
 	void FuzzyGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FuzzyGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 
@@ -40,6 +37,10 @@ private:
 	void LeaderClosestToTheCenter(std::vector<Pair>& agents);
 
 	void FuzzyGroup(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize, bool physical);
+
+	void GroupPathing(int groups, std::vector<Pair> src, Pair dest, bool diagonal);
+	void FixedGroup(Pair src, Pair dest, bool diagonal);
+	void FixedGroupThread(Pair src, Pair dest, bool diagonal, int num);
 
 	AStar* aStar;
 	std::vector<AStar*> vecAStar;
