@@ -22,7 +22,9 @@ public:
 
 	void FixedGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FixedGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
+
 	void FixedGroup(Pair src, Pair dest, bool diagonal);
+	void FixedGroupThread(Pair src, Pair dest, bool diagonal, int num);
 
 	void FuzzyGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FuzzyGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
@@ -40,6 +42,7 @@ private:
 	void FuzzyGroup(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize, bool physical);
 
 	AStar* aStar;
+	std::vector<AStar*> vecAStar;
 
 	std::vector<std::vector<int>> m_map;
 
@@ -49,5 +52,7 @@ private:
 
 	int m_iThreadSize = 1;
 	bool m_bThreadPerGroup = false;
+
+	std::vector<std::vector<Pair>> m_path;
 };
 

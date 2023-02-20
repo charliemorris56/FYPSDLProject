@@ -85,6 +85,7 @@ void AStar::TracePath()
 		if (m_bGroupSearch)
 		{
 			m_map[p.first][p.second] = 7;
+			m_flockingPath.push_back({ p.first, p.second });
 		}
 		else if (m_bFlocking)
 		{

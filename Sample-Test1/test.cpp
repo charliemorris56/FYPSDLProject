@@ -497,7 +497,7 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_2)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 3;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 1));
@@ -694,32 +694,32 @@ TEST(Flocking, Flocking_10x10Cup)
     EXPECT_TRUE(false) << output;
 }
 
-//TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
-//{
-//    auto start = std::chrono::steady_clock::now();
-//    testing::internal::CaptureStdout();
-//
-//    GroupFormations groupFormations;
-//    std::vector<AStar::Pair> agents;
-//    int groupSize = 5;
-//    agents.push_back(std::make_pair(0, 0));
-//    agents.push_back(std::make_pair(2, 0));
-//    agents.push_back(std::make_pair(4, 1));
-//    agents.push_back(std::make_pair(6, 2));
-//    agents.push_back(std::make_pair(8, 3));
-//
-//    AStar::Pair dest = std::make_pair(8, 8);
-//    groupFormations.SetThreadPerGroup(true);
-//
-//    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
-//
-//    auto finish = std::chrono::steady_clock::now();
-//    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
-//    std::cout << "\nTime Taken: " << elapsed_seconds;
-//
-//    std::string output = testing::internal::GetCapturedStdout();
-//
-//    groupFormations.SaveMap();
-//
-//    EXPECT_TRUE(false) << output;
-//}
+TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 3;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 1));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+    groupFormations.SetThreadPerGroup(true);
+
+    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}

@@ -32,11 +32,16 @@ void GroupFormations::FixedGroupFixedLeader(std::vector<std::vector<int>>& map, 
 		std::vector<std::thread> threadVec;
 		for (int i = 0; i < groups; i++)
 		{
-			threadVec.push_back(std::thread(&GroupFormations::FixedGroup, this, startingLeaderPos[i], dest, diagonal));
+			vecAStar.push_back(new AStar());
+			threadVec.push_back(std::thread(&GroupFormations::FixedGroupThread, this, startingLeaderPos[i], dest, diagonal, i));
 		}
 		for (int i = 0; i < groups; i++)
 		{
 			threadVec[i].join();
+			for (int j = 0; j < m_path[i].size(); j++)
+			{
+				m_map[m_path[i][j].first][m_path[i][j].second] = 7;
+			}
 		}
 	}
 	else
@@ -101,9 +106,29 @@ void GroupFormations::FixedGroupVirtualLeader(std::vector<std::vector<int>>& map
 		startingPos.push_back(agents[i]);
 	}
 
-	for (int i = 0; i < groups; i++)
+	if (m_bThreadPerGroup)
 	{
-		FixedGroup(virtualLeadersPos[i], dest, diagonal);
+		std::vector<std::thread> threadVec;
+		for (int i = 0; i < groups; i++)
+		{
+			vecAStar.push_back(new AStar());
+			threadVec.push_back(std::thread(&GroupFormations::FixedGroupThread, this, virtualLeadersPos[i], dest, diagonal, i));
+		}
+		for (int i = 0; i < groups; i++)
+		{
+			threadVec[i].join();
+			for (int j = 0; j < m_path[i].size(); j++)
+			{
+				m_map[m_path[i][j].first][m_path[i][j].second] = 7;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < groups; i++)
+		{
+			FixedGroup(virtualLeadersPos[i], dest, diagonal);
+		}
 	}
 }
 
@@ -113,6 +138,15 @@ void GroupFormations::FixedGroup(Pair src, Pair dest, bool diagonal)
 	aStar->AStarSearch(m_map, src, dest, diagonal, true);
 	aStar->GetMap(m_map);
 	delete aStar;
+}
+
+void GroupFormations::FixedGroupThread(Pair src, Pair dest, bool diagonal, int num)
+{
+	vecAStar[num]->AStarSearch(m_map, src, dest, diagonal, true);
+
+	std::vector<Pair> path;
+	vecAStar[num]->GetFlockingPath(path);
+	m_path.push_back(path);
 }
 
 void GroupFormations::FuzzyGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize)

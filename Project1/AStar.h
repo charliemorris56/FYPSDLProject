@@ -16,7 +16,7 @@ public:
 	typedef std::pair<int, int> Pair;
 	typedef std::pair<double, std::pair<int, int> > pPair;
 
-	void AStarSearch(std::vector<std::vector<int>> &map, Pair src, Pair dest, bool diagonal, bool groupSearch = false);
+	void AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch = false);
 	void AStarSearchNoMap(Pair src, Pair dest, bool diagonal);
 
 	void SaveMap();
