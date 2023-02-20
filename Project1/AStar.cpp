@@ -141,8 +141,6 @@ bool AStar::Successor(int row, int col)
 	return false;
 }
 
-
-
 void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
 	m_map = map;

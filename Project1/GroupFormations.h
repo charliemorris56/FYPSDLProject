@@ -1,5 +1,6 @@
 #pragma once
 #include "AStar.h"
+#include <thread>
 
 struct AgentConnections
 {
@@ -21,11 +22,15 @@ public:
 
 	void FixedGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FixedGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
+	void FixedGroup(Pair src, Pair dest, bool diagonal);
 
 	void FuzzyGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 	void FuzzyGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize);
 
 	void SaveMap();
+
+	void SetThreadSize(int threadSize);
+	void SetThreadPerGroup(bool threadPerGroup);
 
 private:
 	void ValidatePosition(Pair& virtualLeader, std::vector<Pair>& agents);
@@ -41,5 +46,8 @@ private:
 	std::vector<Pair> startingPos;
 	std::vector<Pair> startingLeaderPos;
 	Pair endingPos;
+
+	int m_iThreadSize = 1;
+	bool m_bThreadPerGroup = false;
 };
 
