@@ -98,6 +98,7 @@ void GroupFormations::GroupPathing(int groups, std::vector<Pair> src, Pair dest,
 			m_path.push_back(path);
 
 			threadVec.push_back(std::thread(&GroupFormations::FixedGroupThread, this, src[i], dest, diagonal, i));
+			//FixedGroupThread(src[i], dest, diagonal, i); // apples to apples comparision
 		}
 		for (int i = 0; i < groups; i++)
 		{
