@@ -125,6 +125,8 @@ bool AStar::Successor(int row, int col)
 			gNew = m_cellDetails[curRow * m_iCols + curCol].g + 1.0;
 			hNew = CalculateHuristicValue(curRow + row, curCol + col);
 			fNew = gNew + hNew;
+			if (row != 0 && col != 0)
+				gNew += 0.42; //sqrt(2)			
 
 			// Add to the open list
 			if (m_cellDetails[(curRow + row) * m_iCols + curCol + col].f == FLT_MAX || m_cellDetails[(curRow + row) * m_iCols + curCol + col].f > fNew)

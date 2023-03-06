@@ -44,9 +44,30 @@ TEST(AStar, OneAgent10x10CupDiagonal)
     testing::internal::CaptureStdout();
 
     AStar aStar;
-    AStar::Pair src = std::make_pair(4, 5);
+    AStar::Pair src = std::make_pair(0, 0);
     AStar::Pair dest = std::make_pair(9, 9);
     aStar.AStarSearch(map10x10Cupv, src, dest, true);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    aStar.SaveMap();
+
+	EXPECT_TRUE(false) << output;
+}
+
+TEST(AStar, OneAgent10x10CupNoDiagonal)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    AStar aStar;
+    AStar::Pair src = std::make_pair(0, 0);
+    AStar::Pair dest = std::make_pair(9, 9);
+    aStar.AStarSearch(map10x10Cupv, src, dest, false);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -266,7 +287,7 @@ TEST(JumpPointSearch, OneAgent10x10DiagonalCup)
     testing::internal::CaptureStdout();
 
     JumpPointSearchMe jumpPointSearchMe;
-    JumpPointSearchMe::Pair src = std::make_pair(4, 5);
+    JumpPointSearchMe::Pair src = std::make_pair(0, 0);
     JumpPointSearchMe::Pair dest = std::make_pair(9, 9);
     jumpPointSearchMe.JumpPointSearch(map10x10Cupv, src, dest, true);
 
