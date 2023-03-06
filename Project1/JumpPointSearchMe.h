@@ -8,6 +8,8 @@
 class JumpPointSearchMe
 {
 public:
+	~JumpPointSearchMe();
+
 	typedef std::pair<int, int> Pair;
 	typedef std::pair<double, std::pair<int, int> > pPair;
 
@@ -33,8 +35,8 @@ private:
 	double gNew, hNew, fNew;
 	bool foundDest;
 
-	std::vector<std::vector<Cell>> m_cellDetails;
-	std::vector<std::vector<bool>> closedList;
+	Cell* m_cellDetails;
+	int* closedList;
 	std::set<pPair> openList;
 
 	Pair startingPos;

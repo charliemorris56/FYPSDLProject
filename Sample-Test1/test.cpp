@@ -366,6 +366,8 @@ TEST(HPAStar, Pre_Processing100x100)
 
     std::string output = testing::internal::GetCapturedStdout();
 
+    hPAStar.SaveMap();
+
     EXPECT_TRUE(false) << output;
 }
 
