@@ -1,5 +1,11 @@
 #include "JumpPointSearchMe.h"
 
+JumpPointSearchMe::~JumpPointSearchMe()
+{
+	delete[] closedList;
+	delete[] m_cellDetails;
+}
+
 bool JumpPointSearchMe::IsValid(int row, int col)
 {
 	bool isInRange = (row >= 0) && (row < m_iRows) && (col >= 0) && (col < m_iCols);
@@ -66,11 +72,11 @@ void JumpPointSearchMe::TracePath()
 
 	std::stack<Pair> Path;
 
-	while (!(m_cellDetails[row][col].cRow == row && m_cellDetails[row][col].cCol == col))
+	while (!(m_cellDetails[row * m_iCols + col].cRow == row && m_cellDetails[row * m_iCols + col].cCol == col))
 	{
 		Path.push(std::make_pair(row, col));
-		int temp_row = m_cellDetails[row][col].cRow;
-		int temp_col = m_cellDetails[row][col].cCol;
+		int temp_row = m_cellDetails[row * m_iCols + col].cRow;
+		int temp_col = m_cellDetails[row * m_iCols + col].cCol;
 		row = temp_row;
 		col = temp_col;
 	}
@@ -99,32 +105,32 @@ bool JumpPointSearchMe::Successor(int row, int col)
 	{
 		if (IsDestination(curRow + row, curCol + col))
 		{
-			m_cellDetails[curRow + row][curCol + col].cRow = curRow;
-			m_cellDetails[curRow + row][curCol + col].cCol = curCol;
+			m_cellDetails[(curRow + row) * m_iCols + curCol + col].cRow = curRow;
+			m_cellDetails[(curRow + row) * m_iCols + curCol + col].cCol = curCol;
 			std::cout << "The destination cell is found\n";
 			TracePath();
 			foundDest = true;
 			return true;
 		}
 
-		while (IsValid(curRow + row, curCol + col) && !closedList[curRow + row][curCol + col] && IsUnBlocked(curRow + row, curCol + col))
+		while (IsValid(curRow + row, curCol + col) && !closedList[(curRow + row) * m_iCols + curCol + col] && IsUnBlocked(curRow + row, curCol + col))
 		{
-			gNew = m_cellDetails[curRow][curCol].g + 1.0;
+			gNew = m_cellDetails[curRow * m_iCols + curCol].g + 1.0;
 			hNew = CalculateHuristicValue(curRow + row, curCol + col);
 			fNew = gNew + hNew;
 			if (row != 0 && col != 0)
 				gNew += 0.42; //sqrt(2)	
 
 			// Add to the open list
-			if (m_cellDetails[curRow + row][curCol + col].f == FLT_MAX || m_cellDetails[curRow + row][curCol + col].f > fNew)
+			if (m_cellDetails[(curRow + row) * m_iCols + curCol + col].f == FLT_MAX || m_cellDetails[(curRow + row) * m_iCols + curCol + col].f > fNew)
 			{
 				openList.insert(std::make_pair(fNew, std::make_pair(curRow + row, curCol + col)));
 
-				m_cellDetails[curRow + row][curCol + col].f = fNew;
-				m_cellDetails[curRow + row][curCol + col].g = gNew;
-				m_cellDetails[curRow + row][curCol + col].h = hNew;
-				m_cellDetails[curRow + row][curCol + col].cRow = curRow;
-				m_cellDetails[curRow + row][curCol + col].cCol = curCol;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].f = fNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].g = gNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].h = hNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].cRow = curRow;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].cCol = curCol;
 			}
 
 			if (row < 0)
@@ -162,10 +168,11 @@ void JumpPointSearchMe::JumpPointSearch(std::vector<std::vector<int>>& map, Pair
 		return;
 	}
 
-	for (int i = 0; i < m_iRows; i++)
+	closedList = new int[m_iRows * m_iCols];
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		std::vector<bool> cl(m_iCols, false);
-		closedList.push_back(cl);
+		closedList[i] = false;
 	}
 
 	PopulateCellDetails();
@@ -182,7 +189,7 @@ void JumpPointSearchMe::JumpPointSearch(std::vector<std::vector<int>>& map, Pair
 
 		curRow = p.second.first;
 		curCol = p.second.second;
-		closedList[curRow][curCol] = true;
+		closedList[curRow * m_iCols + curCol] = true;
 
 		if (Successor(-1, 0)) // North
 		{
@@ -236,30 +243,28 @@ void JumpPointSearchMe::SaveMap()
 
 void JumpPointSearchMe::PopulateCellDetails()
 {
-	for (int i = 0; i < m_iRows; i++)
+	m_cellDetails = new Cell[m_iRows * m_iCols];
+
+	std::vector<Cell> cellVec;
+
+	Cell cellDetails;
+	cellDetails.f = FLT_MAX;
+	cellDetails.g = FLT_MAX;
+	cellDetails.h = FLT_MAX;
+	cellDetails.cRow = -1;
+	cellDetails.cCol = -1;
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		std::vector<Cell> cellVec;
-
-		Cell cellDetails;
-		cellDetails.f = FLT_MAX;
-		cellDetails.g = FLT_MAX;
-		cellDetails.h = FLT_MAX;
-		cellDetails.cRow = -1;
-		cellDetails.cCol = -1;
-
-		for (int j = 0; j < m_iCols; j++)
-		{
-			cellVec.push_back(cellDetails);
-		}
-		m_cellDetails.push_back(cellVec);
+		m_cellDetails[i] = cellDetails;
 	}
 
 	curRow = startingPos.first;
 	curCol = startingPos.second;
 
-	m_cellDetails[curRow][curCol].f = 0.0;
-	m_cellDetails[curRow][curCol].g = 0.0;
-	m_cellDetails[curRow][curCol].h = 0.0;
-	m_cellDetails[curRow][curCol].cRow = curRow;
-	m_cellDetails[curRow][curCol].cCol = curCol;
+	m_cellDetails[curRow * m_iCols + curCol].f = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].g = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].h = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].cRow = curRow;
+	m_cellDetails[curRow * m_iCols + curCol].cCol = curCol;
 }

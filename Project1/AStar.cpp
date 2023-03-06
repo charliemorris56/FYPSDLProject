@@ -1,5 +1,11 @@
 #include "AStar.h"
 
+AStar::~AStar()
+{
+	delete[] closedList;
+	delete[] m_cellDetails;
+}
+
 bool AStar::IsValid(int row, int col)
 {
 	bool isInRange = (row >= 0) && (row < m_iRows) && (col >= 0) && (col < m_iCols);
@@ -144,11 +150,6 @@ bool AStar::Successor(int row, int col)
 	return false;
 }
 
-AStar::~AStar()
-{
-	delete[] closedList;
-	delete[] m_cellDetails;
-}
 
 void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
