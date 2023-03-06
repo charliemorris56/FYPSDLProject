@@ -27,13 +27,7 @@ void GroupFormations::FixedGroupFixedLeader(std::vector<std::vector<int>>& map, 
 		}
 	}
 
-	for (int i = 0; i < groups; i++)
-	{
-		aStar = new AStar();
-		aStar->AStarSearch(m_map, startingLeaderPos[i], dest, diagonal, true);
-		aStar->GetMap(m_map);
-		delete aStar;
-	}
+	GroupPathing(groups, startingLeaderPos, dest, diagonal);
 }
 
 void GroupFormations::FixedGroupVirtualLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize)
@@ -89,13 +83,53 @@ void GroupFormations::FixedGroupVirtualLeader(std::vector<std::vector<int>>& map
 		startingPos.push_back(agents[i]);
 	}
 
-	for (int i = 0; i < groups; i++)
+	GroupPathing(groups, virtualLeadersPos, dest, diagonal);
+}
+
+void GroupFormations::GroupPathing(int groups, std::vector<Pair> src, Pair dest, bool diagonal)
+{
+	if (m_bThreadPerGroup)
 	{
-		aStar = new AStar();
-		aStar->AStarSearch(m_map, virtualLeadersPos[i], dest, diagonal, true);
-		aStar->GetMap(m_map);
-		delete aStar;
+		std::vector<std::thread> threadVec;
+		for (int i = 0; i < groups; i++)
+		{
+			vecAStar.push_back(new AStar());
+			std::vector<Pair> path;
+			m_path.push_back(path);
+
+			threadVec.push_back(std::thread(&GroupFormations::FixedGroupThread, this, src[i], dest, diagonal, i));
+			//FixedGroupThread(src[i], dest, diagonal, i); // apples to apples comparision
+		}
+		for (int i = 0; i < groups; i++)
+		{
+			threadVec[i].join();
+			for (int j = 0; j < m_path[i].size(); j++)
+			{
+				m_map[m_path[i][j].first][m_path[i][j].second] = 7;
+			}
+		}
 	}
+	else
+	{
+		for (int i = 0; i < groups; i++)
+		{
+			FixedGroup(src[i], dest, diagonal);
+		}
+	}
+}
+
+void GroupFormations::FixedGroup(Pair src, Pair dest, bool diagonal)
+{
+	aStar = new AStar();
+	aStar->AStarSearch(m_map, src, dest, diagonal, true);
+	aStar->GetMap(m_map);
+	delete aStar;
+}
+
+void GroupFormations::FixedGroupThread(Pair src, Pair dest, bool diagonal, int num)
+{
+	vecAStar[num]->AStarSearch(m_map, src, dest, diagonal, true);
+	m_path[num] = vecAStar[num]->GetFlockingPath();
 }
 
 void GroupFormations::FuzzyGroupFixedLeader(std::vector<std::vector<int>>& map, std::vector<Pair>& agents, Pair dest, bool diagonal, int groupSize)
@@ -162,6 +196,16 @@ void GroupFormations::SaveMap()
 {
 	MapSaving mapSaving;
 	mapSaving.SaveMapToJson(m_map, startingPos, startingLeaderPos, endingPos);
+}
+
+void GroupFormations::SetThreadSize(int threadSize)
+{
+	m_iThreadSize = threadSize;
+}
+
+void GroupFormations::SetThreadPerGroup(bool threadPerGroup)
+{
+	m_bThreadPerGroup = threadPerGroup;
 }
 
 void GroupFormations::ValidatePosition(Pair& virtualLeader, std::vector<Pair>& agents)

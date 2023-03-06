@@ -67,11 +67,11 @@ void AStar::TracePath()
 
 	std::stack<Pair> Path;
 
-	while (!(m_cellDetails[row][col].cRow == row && m_cellDetails[row][col].cCol == col))
+	while (!(m_cellDetails[row * m_iCols + col].cRow == row && m_cellDetails[row * m_iCols + col].cCol == col))
 	{
 		Path.push(std::make_pair(row, col));
-		int temp_col = m_cellDetails[row][col].cCol;
-		int temp_row = m_cellDetails[row][col].cRow;
+		int temp_col = m_cellDetails[row * m_iCols + col].cCol;
+		int temp_row = m_cellDetails[row * m_iCols + col].cRow;
 		row = temp_row;
 		col = temp_col;
 	}
@@ -85,6 +85,7 @@ void AStar::TracePath()
 		if (m_bGroupSearch)
 		{
 			m_map[p.first][p.second] = 7;
+			m_flockingPath.push_back({ p.first, p.second });
 		}
 		else if (m_bFlocking)
 		{
@@ -111,37 +112,41 @@ bool AStar::Successor(int row, int col)
 	{
 		if (IsDestination(curRow + row, curCol + col))
 		{
-			m_cellDetails[curRow + row][curCol + col].cRow = curRow;
-			m_cellDetails[curRow + row][curCol + col].cCol = curCol;
+			m_cellDetails[(curRow + row) * m_iCols + curCol + col].cRow = curRow;
+			m_cellDetails[(curRow + row) * m_iCols + curCol + col].cCol = curCol;
 			std::cout << "The destination cell is found\n";
 			TracePath();
 			foundDest = true;
 			return true;
 		}
 		// Seccessor already on the closed list or is blocked
-		else if (!closedList[curRow + row][curCol + col] && IsUnBlocked(curRow + row, curCol + col))
+		else if (!closedList[(curRow + row) * m_iCols + curCol + col] && IsUnBlocked(curRow + row, curCol + col))
 		{
-			gNew = m_cellDetails[curRow][curCol].g + 1.0;
+			gNew = m_cellDetails[curRow * m_iCols + curCol].g + 1.0;
 			hNew = CalculateHuristicValue(curRow + row, curCol + col);
 			fNew = gNew + hNew;
 
 			// Add to the open list
-			if (m_cellDetails[curRow + row][curCol + col].f == FLT_MAX || m_cellDetails[curRow + row][curCol + col].f > fNew)
+			if (m_cellDetails[(curRow + row) * m_iCols + curCol + col].f == FLT_MAX || m_cellDetails[(curRow + row) * m_iCols + curCol + col].f > fNew)
 			{
 				openList.insert(std::make_pair(fNew, std::make_pair(curRow + row, curCol + col)));
 
-				m_cellDetails[curRow + row][curCol + col].f = fNew;
-				m_cellDetails[curRow + row][curCol + col].g = gNew;
-				m_cellDetails[curRow + row][curCol + col].h = hNew;
-				m_cellDetails[curRow + row][curCol + col].cRow = curRow;
-				m_cellDetails[curRow + row][curCol + col].cCol = curCol;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].f = fNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].g = gNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].h = hNew;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].cRow = curRow;
+				m_cellDetails[(curRow + row) * m_iCols + curCol + col].cCol = curCol;
 			}
 		}
 	}
 	return false;
 }
 
-
+AStar::~AStar()
+{
+	delete[] closedList;
+	delete[] m_cellDetails;
+}
 
 void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest, bool diagonal, bool groupSearch)
 {
@@ -159,10 +164,11 @@ void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest,
 		return;
 	}
 
-	for (int i = 0; i < m_iRows; i++)
+	closedList = new int[m_iRows * m_iCols];
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		std::vector<bool> cl(m_iCols, false);
-		closedList.push_back(cl);
+		closedList[i] = false;
 	}
 
 	PopulateCellDetails();	
@@ -177,7 +183,7 @@ void AStar::AStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dest,
 
 		curRow = p.second.first;
 		curCol = p.second.second;
-		closedList[curRow][curCol] = true;
+		closedList[curRow * m_iCols + curCol] = true;
 
 		if (Successor(-1, 0)) // North
 		{
@@ -236,10 +242,11 @@ void AStar::AStarSearchNoMap(Pair src, Pair dest, bool diagonal)
 		return;
 	}
 
-	for (int i = 0; i < m_iRows; i++)
+	closedList = new int[m_iRows * m_iCols];
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		std::vector<bool> cl(m_iCols, false);
-		closedList.push_back(cl);
+		closedList[i] = false;
 	}
 
 	PopulateCellDetails();
@@ -254,7 +261,7 @@ void AStar::AStarSearchNoMap(Pair src, Pair dest, bool diagonal)
 
 		curRow = p.second.first;
 		curCol = p.second.second;
-		closedList[curRow][curCol] = true;
+		closedList[curRow * m_iCols + curCol] = true;
 
 		if (Successor(-1, 0)) // North
 		{
@@ -313,32 +320,30 @@ void AStar::GetMap(std::vector<std::vector<int>>& map)
 
 void AStar::PopulateCellDetails()
 {
-	for (int i = 0; i < m_iRows; i++)
+	m_cellDetails = new Cell[m_iRows * m_iCols];
+
+	std::vector<Cell> cellVec;
+
+	Cell cellDetails;
+	cellDetails.f = FLT_MAX;
+	cellDetails.g = FLT_MAX;
+	cellDetails.h = FLT_MAX;
+	cellDetails.cRow = -1;
+	cellDetails.cCol = -1;
+
+	for (int i = 0; i < m_iRows * m_iCols; i++)
 	{
-		std::vector<Cell> cellVec;
-
-		Cell cellDetails;
-		cellDetails.f = FLT_MAX;
-		cellDetails.g = FLT_MAX;
-		cellDetails.h = FLT_MAX;
-		cellDetails.cRow = -1;
-		cellDetails.cCol = -1;
-
-		for (int j = 0; j < m_iCols; j++)
-		{
-			cellVec.push_back(cellDetails);
-		}
-		m_cellDetails.push_back(cellVec);
+		m_cellDetails[i] = cellDetails;
 	}
 
 	curRow = startingPos.first;
 	curCol = startingPos.second;
 
-	m_cellDetails[curRow][curCol].f = 0.0;
-	m_cellDetails[curRow][curCol].g = 0.0;
-	m_cellDetails[curRow][curCol].h = 0.0;
-	m_cellDetails[curRow][curCol].cRow = curRow;
-	m_cellDetails[curRow][curCol].cCol = curCol;
+	m_cellDetails[curRow * m_iCols + curCol].f = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].g = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].h = 0.0;
+	m_cellDetails[curRow * m_iCols + curCol].cRow = curRow;
+	m_cellDetails[curRow * m_iCols + curCol].cCol = curCol;
 }
 
 void AStar::SetIsFlocking()
@@ -357,6 +362,11 @@ void AStar::GetFlockingPath(std::vector<Pair>& flockingPath)
 	{
 		flockingPath.push_back(m_flockingPath[i]);
 	}
+}
+
+std::vector<AStar::Pair> AStar::GetFlockingPath()
+{
+	return m_flockingPath;
 }
 
 void AStar::SetFlockingPath(std::vector<Pair>& flockingPath)

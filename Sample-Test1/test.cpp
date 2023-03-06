@@ -122,7 +122,6 @@ TEST(AStar, OneAgent100x100NoDiagonal)
     EXPECT_TRUE(false) << output;
 }
 
-
 TEST(AStar, OneAgent512x512Diagonal)
 {
     MapSaving mapSaving;
@@ -134,6 +133,32 @@ TEST(AStar, OneAgent512x512Diagonal)
     //mapSaving.LoadMapFromJson(map, "512x512");
     //mapSaving.LoadMapFromJson(map, "512x512_2");
     mapSaving.LoadMapFromJson(map, "512x512_maze");
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    aStar.AStarSearch(map, src, dest, true);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    aStar.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(AStar, OneAgent128x128MazeDiagonal)
+{
+    MapSaving mapSaving;
+    AStar aStar;
+
+    std::vector<std::vector<int>> map;
+    AStar::Pair src = std::make_pair(1, 1);
+    AStar::Pair dest = std::make_pair(127, 127);
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
 
     testing::internal::CaptureStdout();
     auto start = std::chrono::steady_clock::now();
@@ -461,6 +486,52 @@ TEST(MapGenerator, 512x512_maze)
     EXPECT_TRUE(false) << output;
 }
 
+TEST(MapGenerator, 128x128_maze)
+{
+    MapSaving mapSaving;
+    AStar aStar;
+
+    std::vector<std::vector<int>> map;
+
+    for (int i = 0; i < 128; i++)
+    {
+        std::vector<int> mapRow;
+        for (int j = 0; j < 128; j++)
+        {
+            if (j % 9 == 0)
+            {
+                if ((j % 2 == 0 && i == 100) || (j % 2 != 0 && i == 10))
+                {
+                    mapRow.push_back(1);
+                }
+                else
+                {
+                    mapRow.push_back(0);
+                }
+            }
+            else
+            {
+                mapRow.push_back(1);
+            }
+        }
+        map.push_back(mapRow);
+        mapRow.clear();
+    }
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    mapSaving.SaveMapToJson(map, "128x128_maze");
+
+    EXPECT_TRUE(false) << output;
+}
+
 TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5)
 {
     auto start = std::chrono::steady_clock::now();
@@ -497,7 +568,7 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_2)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 3;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 1));
@@ -507,6 +578,68 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_2)
     AStar::Pair dest = std::make_pair(8, 8);
 
     groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_100x100)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(10, 0));
+    agents.push_back(std::make_pair(20, 0));
+    agents.push_back(std::make_pair(30, 0));
+    agents.push_back(std::make_pair(40, 0));
+
+    AStar::Pair dest = std::make_pair(99, 99);
+
+    groupFormations.FixedGroupFixedLeader(map100x100v, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_128x128Maze)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 1));
+    agents.push_back(std::make_pair(10, 1));
+    agents.push_back(std::make_pair(20, 1));
+    agents.push_back(std::make_pair(30, 1));
+    agents.push_back(std::make_pair(40, 1));
+
+    AStar::Pair dest = std::make_pair(127, 127);
+
+    MapSaving mapSaving;
+    std::vector<std::vector<int>> map;
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
+
+    groupFormations.FixedGroupFixedLeader(map, agents, dest, true, groupSize);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -690,6 +823,100 @@ TEST(Flocking, Flocking_10x10Cup)
     std::string output = testing::internal::GetCapturedStdout();
 
     flocking.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(2, 0));
+    agents.push_back(std::make_pair(4, 1));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
+
+    AStar::Pair dest = std::make_pair(8, 8);
+    groupFormations.SetThreadPerGroup(true);
+
+    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_100x100)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 0));
+    agents.push_back(std::make_pair(10, 0));
+    agents.push_back(std::make_pair(20, 0));
+    agents.push_back(std::make_pair(30, 0));
+    agents.push_back(std::make_pair(40, 0));
+
+    AStar::Pair dest = std::make_pair(99, 99);
+    groupFormations.SetThreadPerGroup(true);
+
+    groupFormations.FixedGroupFixedLeader(map100x100v, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_128x128Maze)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    GroupFormations groupFormations;
+    std::vector<AStar::Pair> agents;
+    int groupSize = 1;
+    agents.push_back(std::make_pair(0, 1));
+    agents.push_back(std::make_pair(10, 1));
+    agents.push_back(std::make_pair(20, 1));
+    agents.push_back(std::make_pair(30, 1));
+    agents.push_back(std::make_pair(40, 1));
+
+    AStar::Pair dest = std::make_pair(127, 127);
+    groupFormations.SetThreadPerGroup(true);
+
+    MapSaving mapSaving;
+    std::vector<std::vector<int>> map;
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
+
+    groupFormations.FixedGroupFixedLeader(map, agents, dest, true, groupSize);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    groupFormations.SaveMap();
 
     EXPECT_TRUE(false) << output;
 }
