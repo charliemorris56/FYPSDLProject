@@ -10,6 +10,8 @@ Simulation* simulation = nullptr;
 int main() {
 	simulation = new Simulation();
 
+	std::cout << "SimulationStarted\n";
+
 	const char* title = "FPY";
 	int width = 1100; //Make is a square or the tilemap will brake
 	int height = 1100;
