@@ -356,9 +356,30 @@ TEST(HPAStar, Pre_Processing100x100)
     testing::internal::CaptureStdout();
 
     HPAStar hPAStar;
-    int hiSize = 5;
+    int hiSize = 10;
     std::string name = "100x100vPre-Processing" + std::to_string(hiSize);
     hPAStar.ProcessMap(map100x100v, hiSize, name);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    hPAStar.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(HPAStar, map100x100BottomBlocked)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    HPAStar hPAStar;
+    int hiSize = 10;
+    std::string name = "map100x100BottomBlocked" + std::to_string(hiSize);
+    hPAStar.ProcessMap(map100x100BottomBlocked, hiSize, name);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();

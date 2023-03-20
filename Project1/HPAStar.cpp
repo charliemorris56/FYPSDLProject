@@ -211,8 +211,8 @@ void HPAStar::ProcessMap(std::vector<std::vector<int>>& map, int hierarchicalSiz
 	m_iRows = map.size();
 	m_iCols = map[0].size();
 
-	m_iHiRows = m_iRows * 2 / hiSize - 1;
-	m_iHiCols = m_iCols * 2 / hiSize - 1;
+	m_iHiRows = (m_iRows * 2) / hiSize - 1;
+	m_iHiCols = (m_iCols * 2) / hiSize - 1;
 
 	for (int i = 0; i < m_iHiRows; i++)
 	{
