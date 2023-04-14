@@ -143,6 +143,30 @@ TEST(AStar, OneAgent100x100NoDiagonal)
     EXPECT_TRUE(false) << output;
 }
 
+TEST(AStar, OneAgent100x100ClearNoDiagonal)
+{
+    MapSaving mapSaving;
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    AStar aStar;
+    AStar::Pair src = std::make_pair(99, 99);
+    AStar::Pair dest = std::make_pair(0, 0);
+    std::vector<std::vector<int>> map;
+    mapSaving.LoadMapFromJson(map, "100x100Clear");
+    aStar.AStarSearch(map, src, dest, false);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    aStar.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
 TEST(AStar, OneAgent512x512Diagonal)
 {
     MapSaving mapSaving;
@@ -185,6 +209,32 @@ TEST(AStar, OneAgent128x128MazeDiagonal)
     auto start = std::chrono::steady_clock::now();
 
     aStar.AStarSearch(map, src, dest, true);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    aStar.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(AStar, OneAgent128x128MazeNoDiagonal)
+{
+    MapSaving mapSaving;
+    AStar aStar;
+
+    std::vector<std::vector<int>> map;
+    AStar::Pair src = std::make_pair(1, 1);
+    AStar::Pair dest = std::make_pair(127, 127);
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    aStar.AStarSearch(map, src, dest, false);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -245,9 +295,33 @@ TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
     testing::internal::CaptureStdout();
 
     JumpPointSearchMe jumpPointSearchMe;
-    JumpPointSearchMe::Pair src = std::make_pair(0, 0);
-    JumpPointSearchMe::Pair dest = std::make_pair(1, 1);
+    JumpPointSearchMe::Pair src = std::make_pair(99, 99);
+    JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
     jumpPointSearchMe.JumpPointSearch(map100x100v, src, dest, false);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    jumpPointSearchMe.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(JumpPointSearch, OneAgent100x100ClearNoDiagonal)
+{
+    MapSaving mapSaving;
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    JumpPointSearchMe jumpPointSearchMe;
+    JumpPointSearchMe::Pair src = std::make_pair(99, 99);
+    JumpPointSearchMe::Pair dest = std::make_pair(0, 0);
+    std::vector<std::vector<int>> map;
+    mapSaving.LoadMapFromJson(map, "100x100Clear");
+    jumpPointSearchMe.JumpPointSearch(map, src, dest, false);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -302,6 +376,57 @@ TEST(JumpPointSearch, OneAgent10x10DiagonalCup)
     EXPECT_TRUE(false) << output;
 }
 
+TEST(JumpPointSearch, OneAgent128x128MazeDiagonal)
+{
+    MapSaving mapSaving;
+    JumpPointSearchMe jumpPointSearchMe;
+
+    std::vector<std::vector<int>> map;
+    AStar::Pair src = std::make_pair(1, 1);
+    AStar::Pair dest = std::make_pair(127, 127);
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    jumpPointSearchMe.JumpPointSearch(map, src, dest, true);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    jumpPointSearchMe.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(JumpPointSearch, OneAgent128x128MazeNoDiagonal)
+{
+    MapSaving mapSaving;
+    JumpPointSearchMe jumpPointSearchMe;
+
+    std::vector<std::vector<int>> map;
+    AStar::Pair src = std::make_pair(1, 1);
+    AStar::Pair dest = std::make_pair(127, 127);
+    mapSaving.LoadMapFromJson(map, "128x128_maze");
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    jumpPointSearchMe.JumpPointSearch(map, src, dest, false);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    jumpPointSearchMe.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
 
 TEST(JumpPointSearch, OneAgent512x512Diagonal)
 {
@@ -331,6 +456,48 @@ TEST(JumpPointSearch, OneAgent512x512Diagonal)
     EXPECT_TRUE(false) << output;
 }
 
+TEST(JumpPointSearch, OneAgent10x10CupDiagonal)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    JumpPointSearchMe jumpPointSearchMe;
+    AStar::Pair src = std::make_pair(0, 0);
+    AStar::Pair dest = std::make_pair(9, 9);
+    jumpPointSearchMe.JumpPointSearch(map10x10Cupv, src, dest, true);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    jumpPointSearchMe.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
+TEST(JumpPointSearch, OneAgent10x10CupNoDiagonal)
+{
+    auto start = std::chrono::steady_clock::now();
+    testing::internal::CaptureStdout();
+
+    JumpPointSearchMe jumpPointSearchMe;
+    AStar::Pair src = std::make_pair(0, 0);
+    AStar::Pair dest = std::make_pair(9, 9);
+    jumpPointSearchMe.JumpPointSearch(map10x10Cupv, src, dest, false);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    jumpPointSearchMe.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
+
 TEST(HPAStar, Pre_Processing10x10)
 {
     auto start = std::chrono::steady_clock::now();
@@ -346,6 +513,8 @@ TEST(HPAStar, Pre_Processing10x10)
     std::cout << "\nTime Taken: " << elapsed_seconds;
 
     std::string output = testing::internal::GetCapturedStdout();
+
+    hPAStar.SaveMap();
 
     EXPECT_TRUE(false) << output;
 }
@@ -429,7 +598,7 @@ TEST(HPAStar, 100x100)
     mapSaving.LoadMapFromJson(map, "100x100Clear");
     int hiSize = 5;
     AStar::Pair src = std::make_pair(0, 0);
-    AStar::Pair dest = std::make_pair(38, 38);
+    AStar::Pair dest = std::make_pair(99, 99);
 
     testing::internal::CaptureStdout();
     auto start = std::chrono::steady_clock::now();
@@ -447,6 +616,34 @@ TEST(HPAStar, 100x100)
     EXPECT_TRUE(false) << output;
 }
 
+TEST(HPAStar, 100x100_2)
+{
+    MapSaving mapSaving;
+    HPAStar hPAStar;
+
+    std::vector<std::vector<int>> hiMap;
+    std::vector<std::vector<int>> map;
+    mapSaving.LoadMapFromJson(hiMap, "100x100vPre-Processing");
+    mapSaving.LoadMapFromJson(map, "100x100Clear");
+    int hiSize = 5;
+    AStar::Pair src = std::make_pair(0, 0);
+    AStar::Pair dest = std::make_pair(98, 98);
+
+    testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
+    hPAStar.HPAStarSearch(map, hiMap, hiSize, src, dest, false);
+
+    auto finish = std::chrono::steady_clock::now();
+    double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
+    std::cout << "\nTime Taken: " << elapsed_seconds;
+
+    std::string output = testing::internal::GetCapturedStdout();
+
+    hPAStar.SaveMap();
+
+    EXPECT_TRUE(false) << output;
+}
 
 TEST(MapGenerator, 512x512)
 {
