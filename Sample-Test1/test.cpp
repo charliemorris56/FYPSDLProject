@@ -782,14 +782,14 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5)
     std::vector<AStar::Pair> agents;
     int groupSize = 5;
     agents.push_back(std::make_pair(0, 0));
-    agents.push_back(std::make_pair(1, 0));
     agents.push_back(std::make_pair(2, 0));
-    agents.push_back(std::make_pair(3, 0));
-    agents.push_back(std::make_pair(4, 0));
+    agents.push_back(std::make_pair(4, 2));
+    agents.push_back(std::make_pair(6, 2));
+    agents.push_back(std::make_pair(8, 3));
     
     AStar::Pair dest = std::make_pair(8, 8);
 
-    groupFormations.FixedGroupFixedLeader(map10x10Clear, agents, dest, true, groupSize);
+    groupFormations.FixedGroupFixedLeader(map10x10Cupv, agents, dest, true, groupSize);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
@@ -838,7 +838,7 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_100x100)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 1;
+    int groupSize = 5;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(10, 0));
     agents.push_back(std::make_pair(20, 0));
@@ -867,7 +867,7 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_128x128Maze)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 1;
+    int groupSize = 5;
     agents.push_back(std::make_pair(0, 1));
     agents.push_back(std::make_pair(10, 1));
     agents.push_back(std::make_pair(20, 1));
@@ -958,7 +958,7 @@ TEST(GroupFormation, FixedGroupSize2VirtualLeaderAgents5_10x10Cup)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 2;
+    int groupSize = 5;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -987,7 +987,7 @@ TEST(GroupFormation, FuzzyGroupSize5PhysicalLeaderAgents5_10x10Cup)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 2;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -1055,7 +1055,7 @@ TEST(Flocking, Flocking_10x10Cup)
 
     AStar::Pair dest = std::make_pair(8, 8);
 
-    flocking.FlockingPathfinding(map10x10Cupv, agents, dest, false);
+    flocking.FlockingPathfinding(map10x10Cupv, agents, dest, true);
 
     auto finish = std::chrono::steady_clock::now();
     double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start).count();
