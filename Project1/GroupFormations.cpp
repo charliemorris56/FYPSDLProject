@@ -167,6 +167,11 @@ void GroupFormations::FuzzyGroup(std::vector<std::vector<int>>& map, std::vector
 
 			std::sort(connections.begin(), connections.end());
 
+			if (groupSize == 1)
+			{
+				groupSize++;
+			}
+
 			for (int j = 0; j < groupSize - 1; j++)
 			{
 				if (j == 0)
