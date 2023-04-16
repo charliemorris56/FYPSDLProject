@@ -19,8 +19,8 @@
 
 TEST(AStar, OneAgent10x10Diagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     AStar aStar;
     AStar::Pair src = std::make_pair(8, 0);
@@ -40,8 +40,8 @@ TEST(AStar, OneAgent10x10Diagonal)
 
 TEST(AStar, OneAgent10x10CupDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     AStar aStar;
     AStar::Pair src = std::make_pair(0, 0);
@@ -61,8 +61,8 @@ TEST(AStar, OneAgent10x10CupDiagonal)
 
 TEST(AStar, OneAgent10x10CupNoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     AStar aStar;
     AStar::Pair src = std::make_pair(0, 0);
@@ -82,8 +82,9 @@ TEST(AStar, OneAgent10x10CupNoDiagonal)
 
 TEST(AStar, OneAgent10x10NoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
     AStar aStar;
 
     AStar::Pair src = std::make_pair(8, 0);
@@ -103,8 +104,9 @@ TEST(AStar, OneAgent10x10NoDiagonal)
 
 TEST(AStar, OneAgent100x100Diagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
+
     AStar aStar;
 
     AStar::Pair src = std::make_pair(99, 99);
@@ -124,8 +126,8 @@ TEST(AStar, OneAgent100x100Diagonal)
 
 TEST(AStar, OneAgent100x100NoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     AStar aStar;
     AStar::Pair src = std::make_pair(99, 99);
@@ -146,8 +148,8 @@ TEST(AStar, OneAgent100x100NoDiagonal)
 TEST(AStar, OneAgent100x100ClearNoDiagonal)
 {
     MapSaving mapSaving;
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     AStar aStar;
     AStar::Pair src = std::make_pair(99, 99);
@@ -249,8 +251,8 @@ TEST(AStar, OneAgent128x128MazeNoDiagonal)
 
 TEST(JumpPointSearch, OneAgent10x10NoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     JumpPointSearchMe::Pair src = std::make_pair(8, 0);
@@ -270,8 +272,8 @@ TEST(JumpPointSearch, OneAgent10x10NoDiagonal)
 
 TEST(JumpPointSearch, OneAgent100x100Diagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     JumpPointSearchMe::Pair src = std::make_pair(0, 0);
@@ -291,8 +293,8 @@ TEST(JumpPointSearch, OneAgent100x100Diagonal)
 
 TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     JumpPointSearchMe::Pair src = std::make_pair(99, 99);
@@ -313,8 +315,8 @@ TEST(JumpPointSearch, OneAgent100x100NoDiagonal)
 TEST(JumpPointSearch, OneAgent100x100ClearNoDiagonal)
 {
     MapSaving mapSaving;
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     JumpPointSearchMe::Pair src = std::make_pair(99, 99);
@@ -336,8 +338,8 @@ TEST(JumpPointSearch, OneAgent100x100ClearNoDiagonal)
 
 TEST(JumpPointSearch, OneAgent10x10Diagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     JumpPointSearchMe::Pair src = std::make_pair(8, 0);
@@ -458,8 +460,8 @@ TEST(JumpPointSearch, OneAgent512x512Diagonal)
 
 TEST(JumpPointSearch, OneAgent10x10CupDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     AStar::Pair src = std::make_pair(0, 0);
@@ -479,8 +481,8 @@ TEST(JumpPointSearch, OneAgent10x10CupDiagonal)
 
 TEST(JumpPointSearch, OneAgent10x10CupNoDiagonal)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     JumpPointSearchMe jumpPointSearchMe;
     AStar::Pair src = std::make_pair(0, 0);
@@ -500,8 +502,8 @@ TEST(JumpPointSearch, OneAgent10x10CupNoDiagonal)
 
 TEST(HPAStar, Pre_Processing10x10)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     HPAStar hPAStar;
     int hiSize = 5;
@@ -521,8 +523,8 @@ TEST(HPAStar, Pre_Processing10x10)
 
 TEST(HPAStar, Pre_Processing100x100)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     HPAStar hPAStar;
     int hiSize = 10;
@@ -775,12 +777,12 @@ TEST(MapGenerator, 128x128_maze)
 
 TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 2;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -833,12 +835,12 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_2)
 
 TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_100x100)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 1;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(10, 0));
     agents.push_back(std::make_pair(20, 0));
@@ -862,8 +864,8 @@ TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_100x100)
 
 TEST(GroupFormation, FixedGroupSize5PhysicalLeaderAgents5_128x128Maze)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
@@ -953,12 +955,12 @@ TEST(GroupFormation, FixedGroupSize5VirtualLeaderAgents5_10x10Clear)
 
 TEST(GroupFormation, FixedGroupSize2VirtualLeaderAgents5_10x10Cup)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 5;
+    int groupSize = 1;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -982,12 +984,12 @@ TEST(GroupFormation, FixedGroupSize2VirtualLeaderAgents5_10x10Cup)
 
 TEST(GroupFormation, FuzzyGroupSize5PhysicalLeaderAgents5_10x10Cup)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 2;
+    int groupSize = 5;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -1011,8 +1013,8 @@ TEST(GroupFormation, FuzzyGroupSize5PhysicalLeaderAgents5_10x10Cup)
 
 TEST(GroupFormation, FuzzyGroupSize5VirtualLeaderAgents5_10x10Cup)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
@@ -1040,8 +1042,8 @@ TEST(GroupFormation, FuzzyGroupSize5VirtualLeaderAgents5_10x10Cup)
 
 TEST(Flocking, Flocking_10x10Cup)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     Flocking flocking;
     std::vector<AStar::Pair> agents;
