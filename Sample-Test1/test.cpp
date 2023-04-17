@@ -1018,7 +1018,7 @@ TEST(GroupFormation, FuzzyGroupSize5VirtualLeaderAgents5_10x10Cup)
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
-    int groupSize = 2;
+    int groupSize = 1;
     agents.push_back(std::make_pair(0, 0));
     agents.push_back(std::make_pair(2, 0));
     agents.push_back(std::make_pair(4, 2));
@@ -1072,8 +1072,8 @@ TEST(Flocking, Flocking_10x10Cup)
 
 TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
@@ -1102,8 +1102,8 @@ TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_2)
 
 TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_100x100)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
@@ -1132,8 +1132,8 @@ TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_100x100)
 
 TEST(Threading, FixedGroupSize5PhysicalLeaderAgents5_128x128Maze)
 {
-    auto start = std::chrono::steady_clock::now();
     testing::internal::CaptureStdout();
+    auto start = std::chrono::steady_clock::now();
 
     GroupFormations groupFormations;
     std::vector<AStar::Pair> agents;
